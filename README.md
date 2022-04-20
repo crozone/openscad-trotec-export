@@ -42,6 +42,45 @@ If your local copy of OpenSCAD or Inkscape is installed in a different location,
 
 `basic_trotec.svg` and `basic_trotec.pdf` will be created in the same directory as `basic.scad`.
 
+## Making your .scad files compatible
+
+The script sets the constant `EXPORT_LAYER` depending on whether the "cut" layer or the "engrave" layer are to be exported:
+
+* Cut: `EXPORT_LAYER=1`
+* Engrave: `EXPORT_LAYER=2`
+
+Your .scad file should include the line `EXPORT_LAYER = 0;` in the top-most scope. This will then be overridden during export. Your .scad can then be set up to output the approprate geometry based on the value of `EXPORT_LAYER`.
+
+For example:
+
+```
+EXPORT_LAYER = 0;
+
+module part() {
+    // Cut geometry goes here
+}
+
+module engrave() {
+    // Engrave geometry goes here
+}
+
+if(EXPORT_LAYER == 1) {
+    // Cut layer
+    part();
+}
+else if(EXPORT_LAYER == 2) {
+    // Engrave layer
+    engrave();
+}
+else {
+    // Normal mode / preview
+    part();
+    %engrave();
+}
+```
+
+See [examples](examples/) for examples.
+
 ## Script steps
 The steps the script takes are:
 
