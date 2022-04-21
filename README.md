@@ -20,22 +20,24 @@ It should be simple to modify the script to add additional layers with additiona
 
 ## Dependencies
 
-* Powershell (Only tested on Powershell 5.1 for Windows, but Powershell Core should work on Linux)
+* Powershell (Only tested on Powershell 5.1 for Windows, but [Powershell Core](https://github.com/PowerShell/PowerShell) should work on Linux and MacOS)
 * OpenSCAD (.scad -> .svg)
 * Inkscape (.svg -> .pdf)
 
 
-**TODO:** Autodetection of common OpenSCAD and Inkscape install paths.
+The script will search for OpenSCAD and Inkscape using a list of pre-defined install locations. Common paths for Windows, Linux, and MacOS are included. If your OpenSCAD or Inkscape is installed in an unusual location, set the `OPENSCAD_LOCATION` and/or `INKSCAPE_LOCATION` environment variables to the paths of the application executables.
 
-Currently the script uses hardcoded values:
-* `$openscad_exe="C:\Program Files\OpenSCAD\openscad.exe"`
-* `$inkscape_exe="C:\Program Files\Inkscape\bin\inkscape.exe"`
+For example:
 
-If your local copy of OpenSCAD or Inkscape is installed in a different location, these values will need to be modified.
+```PowerShell
+$Env:OPENSCAD_LOCATION = "C:\OpenSCAD\openscad.exe"
+$Env:INKSCAPE_LOCATION = "C:\Inkscape\bin\inkscape.exe"
+```
 
 ## Usage
 
 `openscad_export_for_trotec.ps1 <input_scad_path>`
+
 ## Example
 
 `./openscad_export_for_trotec.ps1 ./examples/basic/basic.scad`
@@ -53,7 +55,7 @@ Your .scad file should include the line `EXPORT_LAYER = 0;` in the top-most scop
 
 For example:
 
-```
+```OpenSCAD
 EXPORT_LAYER = 0;
 
 module part() {
